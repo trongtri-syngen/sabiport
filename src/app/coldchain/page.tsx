@@ -40,11 +40,28 @@ export default function ColdChainPage() {
     warning_low_c: "3", warning_high_c: "7",
   });
 
+  const [loadError, setLoadError] = useState<string | null>(null);
+
   async function load() {
     setLoading(true);
-    const r = await fetch("/api/coldchain/shipments");
-    setRows(await r.json());
-    setLoading(false);
+    setLoadError(null);
+    try {
+      const r = await fetch("/api/coldchain/shipments");
+      const data = await r.json();
+      if (!r.ok || !Array.isArray(data)) {
+        setRows([]);
+        setLoadError(
+          (data && data.error) || `Could not load shipments (HTTP ${r.status}).`
+        );
+      } else {
+        setRows(data);
+      }
+    } catch (err) {
+      setRows([]);
+      setLoadError(err instanceof Error ? err.message : "Network error.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => { load(); }, []);
@@ -70,7 +87,7 @@ export default function ColdChainPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-white">Cold-Chain Control Tower</h1>
-          <p className="text-slate-400 text-sm mt-1">Temperature compliance — detect, act, close</p>
+          <p className="text-slate-400 text-sm mt-1">Temperature compliance â€” detect, act, close</p>
         </div>
         <button
           onClick={() => setCreating(true)}
@@ -99,7 +116,7 @@ export default function ColdChainPage() {
             </div>
           ))}
           <div className="col-span-2 border-t border-slate-700 pt-3">
-            <p className="text-xs text-slate-400 mb-3">Temperature profile (°C)</p>
+            <p className="text-xs text-slate-400 mb-3">Temperature profile (Â°C)</p>
             <div className="grid grid-cols-4 gap-3">
               {[["min_temp_c","Min"],["max_temp_c","Max"],["warning_low_c","Warn low"],["warning_high_c","Warn high"]].map(([k,label]) => (
                 <div key={k}>
@@ -120,10 +137,16 @@ export default function ColdChainPage() {
         </form>
       )}
 
+      {loadError && (
+        <div className="bg-red-900/30 border border-red-700 text-red-300 rounded p-3 mb-4 text-sm">
+          {loadError} <button onClick={load} className="underline ml-2">Retry</button>
+        </div>
+      )}
+
       {loading ? (
-        <p className="text-slate-400">Loading…</p>
+        <p className="text-slate-400">Loadingâ€¦</p>
       ) : rows.length === 0 ? (
-        <p className="text-slate-400">No shipments yet. Create one to start.</p>
+        <p className="text-slate-400">{loadError ? "Could not load shipments." : "No shipments yet. Create one to start."}</p>
       ) : (
         <table className="w-full text-sm">
           <thead>
@@ -142,7 +165,7 @@ export default function ColdChainPage() {
               <tr key={s.id} className="border-b border-slate-800 hover:bg-slate-800/50">
                 <td className="py-2.5 pr-4 font-mono text-white">{s.shipment_ref}</td>
                 <td className="py-2.5 pr-4 text-slate-300">{s.carrier}</td>
-                <td className="py-2.5 pr-4 text-slate-300">{s.origin} → {s.destination}</td>
+                <td className="py-2.5 pr-4 text-slate-300">{s.origin} â†’ {s.destination}</td>
                 <td className="py-2.5 pr-4 text-slate-300">{s.product_category}</td>
                 <td className="py-2.5 pr-4">
                   <span className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[s.status] ?? "bg-slate-700 text-slate-300"}`}>
@@ -157,7 +180,7 @@ export default function ColdChainPage() {
                 </td>
                 <td className="py-2.5">
                   <Link href={`/coldchain/${s.id}`} className="text-orange-400 hover:text-orange-300 text-xs font-medium">
-                    Open →
+                    Open â†’
                   </Link>
                 </td>
               </tr>
