@@ -114,3 +114,9 @@ CBM for Acer (6 pallets, 1.8m height): 1.2 × 0.8 × 1.8 × 6 = **10.368 m³** �
 ## Lessons
 
 _(Fill in after Monday demo)_
+
+---
+
+## Continuous deployment
+
+Connected to Vercel — every push to `main` auto-deploys to https://trong-tri.vercel.app
