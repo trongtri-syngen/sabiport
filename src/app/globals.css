@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Sabiport design tokens */
+:root {
+  --brand-orange: #ff5e1a;
+  --brand-orange-hover: #ff7840;
+  --brand-orange-dim: rgba(255, 94, 26, 0.15);
+  --bg-deep: #0c1829;
+  --bg-panel: #0f2035;
+  --bg-elevated: #162840;
+  --text-primary: #ffffff;
+  --text-secondary: #a8bac8;
+  --text-muted: #566a7a;
+  --border: #1e3348;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --glass-card-bg: rgba(15, 32, 53, 0.45);
+  --glass-card-border: 1px solid rgba(255, 255, 255, 0.11);
+  --glass-card-radius: 16px;
+  --glass-card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 12px 48px rgba(0, 0, 0, 0.45);
+  --font: "Inter", system-ui, -apple-system, sans-serif;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --sp-4: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .card {
+    background: var(--glass-card-bg);
+    border: var(--glass-card-border);
+    border-radius: var(--glass-card-radius);
+    box-shadow: var(--glass-card-shadow);
+    backdrop-filter: blur(32px);
+    padding: 24px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: none;
+    outline: none;
+  }
+
+  .btn-primary {
+    background: var(--brand-orange);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--brand-orange-hover);
+  }
+
+  .btn-ghost {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.09);
+    color: var(--text-primary);
+  }
+
+  .btn-danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .btn-danger:hover {
+    background: rgba(239, 68, 68, 0.25);
+  }
+
+  .input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .input:focus {
+    border-color: var(--brand-orange);
+  }
+
+  .input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .badge-recommended {
+    background: rgba(168, 186, 200, 0.15);
+    color: var(--text-secondary);
+  }
+
+  .badge-confirmed {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--warning);
+  }
+
+  .badge-active {
+    background: rgba(34, 197, 94, 0.15);
+    color: var(--success);
+  }
+
+  .badge-returned {
+    background: rgba(86, 106, 122, 0.15);
+    color: var(--text-muted);
+  }
+
+  .table-base {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .table-base th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .table-base td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(30, 51, 72, 0.5);
+    color: var(--text-secondary);
+  }
+
+  .table-base tr:last-child td {
+    border-bottom: none;
+  }
+
+  .table-base tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .number-orange {
+    color: var(--brand-orange);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .number {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .margin-positive {
+    color: var(--success);
+  }
+
+  .margin-negative {
+    color: var(--danger);
+  }
+}
